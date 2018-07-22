@@ -1,0 +1,78 @@
+\documentclass{article}
+\title{Problem set 1 - P3}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\author{Jose Ramirez}
+\setlength{\parindent}{0pt}
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+\item
+\begin{eqnarray*}
+	p(y = 1 | x) = \frac{1}{1 + \frac{p(x|y = -1)p(y = -1)}{p(x|y = 1)p(y = 1)}} = \\
+	\frac{1}{1 + \frac{1 - \phi}{\phi} \exp(\frac{1}{2}((x - \mu_{1})^T\Sigma^{-1}(x - \mu_{1}) - (x - \mu_{-1})^T\Sigma^{-1}(x - \mu_{-1})))},
+\end{eqnarray*}
+
+but
+
+\begin{eqnarray*}
+	(x - \mu_{1})^T\Sigma^{-1}(x - \mu_{1}) - (x - \mu_{-1})^T\Sigma^{-1}(x - \mu_{-1})) = \\
+	x^T\Sigma^{-1}x - x^T\Sigma^{-1}\mu_{1} - \mu_{1}^T\Sigma^{-1}x + \mu_{1}^T\Sigma^{-1}\mu_{1} - \\
+	(x^T\Sigma^{-1}x - x^T\Sigma^{-1}\mu_{-1} - \mu_{-1}^T\Sigma^{-1}x + \mu_{-1}^T\Sigma^{-1}\mu_{-1}) = \\
+	-2\mu_{1}\Sigma^{-1}x + 2\mu_{-1}\Sigma^{-1}x + \mu_{1}^T\Sigma^{-1}\mu_{1} - \mu_{-1}^T\Sigma^{-1}\mu_{-1},
+\end{eqnarray*}
+
+hence, we can say that 
+
+$$
+	p(y = 1 | x) = \frac{1}{1 + \exp(-(\theta^Tx + \theta_{0}))}
+$$
+
+by setting
+
+\begin{eqnarray*}
+	\theta = \Sigma^{-1}(\mu_{1} - \mu_{-1}), \\
+	\theta_{0} = \frac{1}{2}\left(\mu_{-1}^T\Sigma^{-1}\mu_{-1} - \mu_{1}^T\Sigma^{-1}\mu_{1}\right) - \log(\frac{1 - \phi}{\phi}).
+\end{eqnarray*}
+
+\item We'll calculate the partial derivatives with respect to $\phi, \mu_a (a \in\{1, -1\})$ and $\Sigma^{-1}$, in that order, to get the critical values we need:
+
+\begin{eqnarray*}
+	\frac{\partial l}{\partial \phi} = \frac{\partial}{\partial \phi} \left(\sum_{y^{(i)} = 1} \log\phi + \sum_{y^{(i)} = -1} \log(1 - \phi)\right) = \frac{k_1}{\phi} - \frac{k_{-1}}{1 - \phi},
+\end{eqnarray*}
+
+$$
+	\frac{\partial l}{\partial \phi} = 0 \Rightarrow \frac{k_1}{\phi} - \frac{k_{-1}}{1 - \phi} = 0 \Rightarrow \phi = \frac{1}{m} \sum_{i = 1}^m 1\{y^{(i)} = 1\},
+$$
+
+where $k_1 = \sum_i 1\{y^{(i)} = 1\}, k_{-1} = \sum_i 1\{y^{(i)} = -1\},$ so that $k_1 + k_{-1} = m.$
+
+Now, for $\mu_a$:
+
+\begin{eqnarray*}
+	\frac{\partial l}{\partial {\mu_a}} = \frac{\partial}{\partial {\mu_a}} \left(\sum_i -\frac{1}{2}(x^{(i)} - \mu_a)^T \Sigma^{-1} (x^{(i)} - \mu_a) \right) = \\
+	\frac{\partial}{\partial {\mu_a}} \left( \sum_i x^{(i)T} \Sigma^{-1} x^{(i)} - x^{(i)T} \Sigma^{-1} \mu_a - \mu_a^T \Sigma^{-1} x^{(i)} + \mu_a^T \Sigma^{-1} \mu_a \right) = \\
+	\frac{\partial}{\partial {\mu_a}} \left( \sum_{y^{(i)} = a} x^{(i)T} \Sigma^{-1} x^{(i)} - x^{(i)T} \Sigma^{-1} \mu_a - \mu_a^T \Sigma^{-1} x^{(i)} + \mu_a^T \Sigma^{-1} \mu_a \right) = \\
+	2\Sigma^{-1} \sum_{y^{(i)} = a} \left( \mu_a - x^{(i)} \right) = 0 \Rightarrow \mu_a = \frac{\sum_{i} 1\{y^{(i)} = a\} x^{(i)}}{\sum 1\{y^{(i)} = a\}};
+\end{eqnarray*}
+
+Finally, for $\Sigma^{-1}$, we set $\Sigma^{-1} = S$ first, and the continue with it:
+
+\begin{eqnarray*}
+	\frac{\partial l}{\partial S} = \frac{\partial}{\partial S} \left(\frac{1}{2}\log(|S|) + \sum_i - \frac{1}{2}(x^{(i)} - \mu_{y^{(i)}})^T S (x^{(i)} - \mu_{y^{(i)}}) \right) = \\
+	\frac{\partial}{\partial S} \left(\frac{1}{2}\log(|S|) - \sum_i \frac{1}{2} b_{i}^T S b_{i} \right) = \\
+	\frac{1}{2|S|}\left(|S|(S^{-1})^T\right) - \frac{\partial}{\partial S}\left( \sum_i \frac{1}{2} b_{i}^T S b_{i} \right) = \\
+	\frac{1}{2|S|}\left(|S|(S^{-1})^T\right) - \frac{\partial}{\partial S}\left( \sum_i \frac{1}{2} \mathrm{tr}(b_{i}^T S b_{i})  \right) = \\
+	\frac{1}{2|S|}\left(|S|(S^{-1})^T\right) - \frac{\partial}{\partial S}\left( \sum_i \frac{1}{2} \mathrm{tr}(S b_{i} b_{i}^T)  \right) = \\
+	\frac{1}{2|S|}\left(|S|(S^{-1})^T\right) - \frac{1}{2}\sum_i b_{i} b_{i}^T = 0 \Rightarrow \\
+	\Sigma = S^{-1} = \sum_i b_{i} b_{i}^T = \sum_i (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T,
+\end{eqnarray*}
+
+where $b_i = x^{(i)} - \mu_{y^{(i)}}$.
+\end{enumerate}
+
+\end{document}

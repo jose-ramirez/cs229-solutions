@@ -1,0 +1,41 @@
+\documentclass{article}
+\title{Problem set 1 - P4}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\author{Jose Ramirez}
+\setlength{\parindent}{0pt}
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+\begin{document}
+\maketitle
+
+So, for this case, we need to first find $\nabla_z g(z)$ and $\nabla^2_{z} g(z)$.
+
+For the first one:
+\begin{eqnarray*}
+	\frac{\partial g(z)}{\partial z_i} = \sum_k \frac{\partial f(Az)}{\partial(Az)_k} \frac{\partial (Az)_k}{\partial z_i} = \\
+	\sum_k \frac{\partial f(Az)}{\partial(x)_k} A_{ki},
+\end{eqnarray*}
+
+so $\nabla_z g(z) = A^T \nabla_x f(Az)$,
+
+and for the second, we have:
+\begin{eqnarray*}
+	\frac{\partial^2 g(z)}{\partial z_i \partial z_j} = \frac{\partial}{\partial z_j}\left( \sum_k \frac{\partial f(Az)}{\partial x_k} A_{ki} \right) = \\
+	\sum_l \sum_k \frac{\partial^2 f(Az)}{\partial x_k \partial x_l} A_{ki} A_{lj},
+\end{eqnarray*}
+which, after some thought, this can be compacted into $\nabla^2_{z} g(z) = A^T \nabla^2_{x} f(Az) A.$
+
+Now, to the problem at hand, we have the following:
+
+\begin{eqnarray*}
+	z^{(i + 1)} = z^{(i)} - (\nabla_z^2 g(z^{(i)}))^{-1}(\nabla_z g(z^{(i)})) = \\
+	z^{(i)} - (A^T \nabla^2_{x} f(Az^{(i)}) A)^{-1} A^T \nabla_x f(Az^{(i)}) = \\
+	z^{(i)} - A^{-1} (\nabla_x^2 f(Az^{(i)}))^{-1} \nabla_x f(Az^{(i)}), 
+\end{eqnarray*}
+
+so, we can say that $A z^{(i + 1)} = A z^{(i)} - (\nabla_x^2 f(Az^{(i)}))^{-1} \nabla_x f(Az^{(i)})$, meaning that if $x^{(i)} = A z^{(i)}$,
+then $x^{(i + 1)} = A z^{(i + 1)}$.
+
+\end{document}
