@@ -1,0 +1,44 @@
+\documentclass{article}
+\title{Problem set 2}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\author{Jose Ramirez}
+\setlength{\parindent}{0pt}
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+\begin{document}
+\maketitle
+
+We'll denote here as $G_i$ an arbitrary Gram matrix associated with the proposed kernel $K_i$.
+\begin{enumerate}
+
+\item So, we know that $K_1, K_2$ are kernels, so each have some kernel matrices $G_1, G_2$, such that $z^TG_1z \geq 0, z^TG_2z \geq 0  \ \forall z$, which implies that $G_1 + G_2$ would be a kernel matrix for $K_1 + K_2$, since $z^TG_1z + z^TG_2z \geq 0\ \forall z$ as well.
+
+\item No, as we can find a counterexample, like so: set $G_2 = 2G_1$; then $\forall z$, $z^T(G_1 - G_2)z = -z^TG_1z \leq 0$.
+
+\item It is a kernel, since, if $z^TG_1z  \geq 0 \ \forall z$, then $z^T(aG_1)z = a(z^TG_1z) \geq 0 \ \forall z$ as well.
+
+\item It is not a kernel, since $z^T(aG_1)z = a(z^TG_1z) < 0 \ \forall z$.
+
+\item It is a kernel. To prove it, let $\phi_i$ the function corresponding to $K_i$, so that $K_i(x, z) = \phi_{i}(x)^T\phi_{i}(z)$.
+Hence:
+
+\begin{align*}
+	K_1(x, z)K_2(x, z) = \left(\phi_1(x)^T\phi_1(z)\right)\left(\phi_{2}(x)^T\phi_{2}(z)\right) = \\
+	\left(\sum_i (\phi_1(x))^{(i)}(\phi_1(z))^{(i)}\right) \left(\sum_j (\phi_{2}(x))^{(j)}(\phi_{2}(z))^{(j)}\right) = \\
+	\sum_i \sum_j \left((\phi_1(x))^{(i)}(\phi_1(z))^{(i)}\right) \left((\phi_{2}(x))^{(j)}(\phi_{2}(z))^{(j)}\right) = \\
+	\sum_{(i, j)} \left((\phi_1(x))^{(i)}(\phi_2(x))^{(j)}\right)\left((\phi_{1}(z))^{(i)}(\phi_{2}(z))^{(j)}\right) = \\
+	\psi_{i,j}(x)^T\psi_{i,j}(z),
+\end{align*}
+
+provided that we define $\psi_{i,j}(x) = \phi_1(x)^{(i)}\phi_2(x)^{(j)}$.
+
+\item Since $f(x)$ is a scalar, $(f(x))^T = f(x)$, so it is a kernel.
+
+\item Since $G_3$ would be positive semidefinite for every set $\{x^{(1)}, \cdots, x^{(m)}\}$, it will be positive semidefinite even for $\{\phi(x^{(1)}), \cdots, \phi(x^{(m)})\}$, so it is a kernel as well.
+
+\item This is a kernel; this follows from applying repeatedly the items proved above, and because the coefficients are positive.
+
+\end{enumerate}
+\end{document}
